@@ -7,6 +7,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Colors, Images } from '../config';
 import { Formik } from 'formik'
 import { signupValidationSchema } from '../utils';
+import app from '../../firebaseConfig';
 
 export default function SignupScreen({ navigation }) {
   const [errorState, setErrorState] = useState('');
@@ -22,7 +23,7 @@ export default function SignupScreen({ navigation }) {
 
   const handleSignup = async (values) => {
     const { email, password } = values;
-    const auth = getAuth();
+    const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, email, password)
     .then(
       () => navigation.navigate('Login')

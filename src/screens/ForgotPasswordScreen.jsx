@@ -5,13 +5,14 @@ import { Button, FormErrorMessage, TextInput, View } from '../components';
 import { Formik } from 'formik';
 import { passwordResetSchema } from '../utils';
 import { Colors } from '../config';
+import app from '../../firebaseConfig';
 
 export default function ForgotPasswordScreen() {
   const [errorState, setErrorState] = useState('');
 
   const handleSendPasswordResetEmail = (values) => {
     const { email } = values;
-    const auth = getAuth();
+    const auth = getAuth(app);
     sendPasswordResetEmail(auth, email)
     .then(() => {
       console.log('Success: Password Reset Email sent.')

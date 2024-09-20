@@ -7,6 +7,7 @@ import { Button, FormErrorMessage, Logo, TextInput, View } from '../components';
 import { Colors, Images } from '../config';
 import { Formik } from 'formik';
 import { loginValidationSchema } from '../utils';
+import app from '../../firebaseConfig';
 
 export default function LoginScreen({ navigation }) {
   const [errorState, setErrorState] = useState('');
@@ -18,8 +19,8 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = (values) => {
     const { email, password } = values;
-    const auth = getAuth();
-    signInWithEmailAndPassword(email, password)
+    const auth = getAuth(app);
+    signInWithEmailAndPassword(auth, email, password)
     .then(
       () => navigation.navigate('Login')
     )
