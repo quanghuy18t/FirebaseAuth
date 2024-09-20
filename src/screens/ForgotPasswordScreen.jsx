@@ -1,0 +1,106 @@
+import { StyleSheet, Text } from 'react-native'
+import React, { useState } from 'react'
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { Button, FormErrorMessage, TextInput, View } from '../components';
+import { Formik } from 'formik';
+import { passwordResetSchema } from '../utils';
+import { Colors } from '../config';
+
+export default function ForgotPasswordScreen() {
+  const [errorState, setErrorState] = useState('');
+
+  const handleSendPasswordResetEmail = (values) => {
+    const { email } = values;
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+      console.log('Success: Password Reset Email sent.')
+    })
+    .catch(error => setErrorState(error.message));
+  };
+
+  return (
+    <View isSafe style={styles.container}>
+      <View style={styles.innercontainer}>
+        <Text style={styles.screenTitle}>Reset your password</Text>
+      </View>
+      <Formik
+        initialValues={{ email: '' }}
+        validationSchema={passwordResetSchema}
+        onSubmit={values => handleSendPasswordResetEmail(values)}
+      >
+        {({
+          values,
+          touched,
+          errors,
+          handleChange,
+          handleSubmit,
+          handleBlur
+        }) => (
+          <>
+            <TextInput 
+              name='email'
+              leftIconName={'email'}
+              placeholder='Enter Email'
+              autoCapitalize='none'
+              keyboardType='email-address'
+              textContentType='emailAddress'
+              value={values.email}
+              onChangText={handleChange('email')}
+              onBlur={handleBlur('email')}
+            />
+            <FormErrorMessage error={errors.message} visible={touched.email} />
+            {errorState !== '' ? (
+              <FormErrorMessage error={errorState} visible={true} />
+            ) : null}
+            <Button style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Send Reset Email</Text>
+            </Button>
+          </>
+        )}
+      </Formik>
+      <Button 
+        style={styles.borderlessButtonContainer}
+        borderless
+        title={'Go back to Login'}
+        onPress={() => {}}
+      />
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingHorizontal: 12
+  },
+  innercontainer: {
+    alignItems: 'center'
+  },
+  screenTitle: {
+    fontSize: 32,
+    fontWeight: '700',
+    color: Colors.black,
+    paddingTop: 20
+  },
+  button: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 8,
+    backgroundColor: Colors.orange,
+    padding: 10,
+    borderRadius: 8
+  },
+  buttonText: {
+    fontSize: 20,
+    color: Colors.white,
+    fontWeight: '700'
+  },
+  borderlessButtonContainer: {
+    marginTop: 16,
+    alignItems: 'center',
+    justifyContent: 'center' 
+  }
+});
