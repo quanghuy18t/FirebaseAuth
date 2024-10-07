@@ -2,6 +2,18 @@
   "expo": {
     "name": "Authentication",
     "slug": "Authentication",
+    "plugins": [
+      "@react-native-firebase/app", 
+      "@react-native-firebase/auth", 
+      "@react-native-google-signin/google-signin",
+      ["react-native-fbsdk-next",
+      {
+        "appID": "1565866960674812",
+        "clientToken": "777a6370c4313df6c3a5ee14332007c1",
+        "displayName": "Authtication"
+
+      }]
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,13 +27,20 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.quanghuy18t.Authentication"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b280975d-b84c-4edc-a869-318c869ae9ea"
+      }
     }
   }
 }
